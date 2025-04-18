@@ -334,6 +334,14 @@ def update_properties_and_phone(csv_path):
                     update_entity_mapping_type2(conn_entity, correct_id, incorrect_id)
                 # ----------------------------------------------------------------------------- # 
                 update_entity_role_links(conn_entity, correct_id, incorrect_id)
+                #------------------------------------------------------------------------------ #
+
+                if entity_type == 1:
+                    cursor_entity.execute("DELETE FROM entity WHERE entity_id = %s", (incorrect_id,))
+                elif entity_type == 2:
+                    cursor_entity.execute("DELETE FROM people WHERE entity_id = %s", (incorrect_id,))
+                    cursor_entity.execute("DELETE FROM entity WHERE entity_id = %s", (incorrect_id,))
+
                 conn_entity.commit()  
 
             except Exception as e:
